@@ -39,7 +39,7 @@ namespace NSemVersion
             if (fragment2.IsNumeric)
                 return 1;
 
-            return String.Compare(fragment1.TextValue, fragment2.TextValue, false);
+            return String.Compare(fragment1.TextValue, fragment2.TextValue, StringComparison.Ordinal);
         }
     }
 }
