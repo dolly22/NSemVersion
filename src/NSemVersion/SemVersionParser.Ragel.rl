@@ -44,8 +44,6 @@ namespace NSemVersion
 			#endif
 		}
 
-		action test_buf { sb.Length > 0 }
-
 		action clearbuf {		
 			sb.Clear();
 			#if (TRACE_FSM)
@@ -98,7 +96,12 @@ namespace NSemVersion
 			if (hasAlpha)
 				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
 			else
+			{
+				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
+
 				preRelease.Add(new PreReleasePartFragment(val));
+			}
 
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine(String.Format("on_prerelease_fragment text={0}, val={1}, isNumeric={2}", sb.ToString(), val, !hasAlpha));
@@ -120,23 +123,23 @@ namespace NSemVersion
 			#endif
 		}		
 
-		action on_buildinfo_fragment {			
-			buildInfo.Add(sb.ToString());
+		action on_buildmetadata_fragment {			
+			buildMetadata.Add(sb.ToString());
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine(String.Format("on_buildinfo_fragment text={0}", sb.ToString()));
+				System.Diagnostics.Trace.WriteLine(String.Format("on_buildmetadata_fragment text={0}", sb.ToString()));
 			#endif
 		}
 
-		action start_buildinfo {
-			buildInfo = new List<string>();
+		action start_buildmetadata {
+			buildMetadata = new List<string>();
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("start_buildinfo");
+				System.Diagnostics.Trace.WriteLine("start_buildmetadata");
 			#endif					
 		}
 
-		action on_buildinfo {
+		action on_buildmetadata {
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("on_buildinfo");
+				System.Diagnostics.Trace.WriteLine("on_buildmetadata");
 			#endif
 		}
 
@@ -156,8 +159,8 @@ namespace NSemVersion
 			throw CreateParsingException(input, fpc, fpc == eof, "preRelease");
 		}
 
-		action error_buildinfo {
-			throw CreateParsingException(input, fpc, fpc == eof, "buildInfo");
+		action error_buildmetadata {
+			throw CreateParsingException(input, fpc, fpc == eof, "buildMetadata");
 		}
 
 		action error_general {
@@ -166,23 +169,23 @@ namespace NSemVersion
 
 		version = '0' | ([1-9] digit*) $add_digit;
 
-		prel_alnumfragment = ( [1-9] | '0' when test_buf | alpha @markalpha | '-' @markalpha )+ $buf;
+		prel_alnumfragment = ( digit | alpha @markalpha | '-' @markalpha )+ $buf;
 		prel_fragment = ( version | prel_alnumfragment ) %on_prerelease_fragment;
 		prel = prel_fragment ('.' >clearbuf >clearval >clearmarkalpha prel_fragment)*;
 		
-		binfo_fragment = (alnum | '-')+ $buf %on_buildinfo_fragment;
-		binfo = binfo_fragment ('.' >clearbuf binfo_fragment)*;
+		bmetadata_fragment = (alnum | '-')+ $buf %on_buildmetadata_fragment;
+		bmetadata = bmetadata_fragment ('.' >clearbuf bmetadata_fragment)*;
 
 		main := version %on_major $lerr(error_major) '.' >clearval
 				version %on_minor $lerr(error_minor) '.' >clearval
 				version %on_patch $lerr(error_patch)
 				('-' prel >start_prerelease >clearbuf %on_prerelease)? $lerr(error_prerelease)
-				('+' binfo >start_buildinfo >clearbuf %on_buildinfo)? $lerr(error_buildinfo)
+				('+' bmetadata >start_buildmetadata >clearbuf %on_buildmetadata)? $lerr(error_buildmetadata)
 				$err(error_general);
 
 		prerelease := prel >start_prerelease %on_prerelease $lerr(error_prerelease) $err(error_general);
 
-		buildinfo := binfo >start_buildinfo %on_buildinfo $lerr(error_buildinfo) $err(error_general);
+		buildmetadata := bmetadata >start_buildmetadata %on_buildmetadata $lerr(error_buildmetadata) $err(error_general);
 		
 		}%%
 		
@@ -207,7 +210,7 @@ namespace NSemVersion
 			// parsing context
 			int major = 0, minor = 0, patch = 0;
 			List<PreReleasePartFragment> preRelease = null;
-			List<string> buildInfo = null;
+			List<string> buildMetadata = null;
 
 			%% write init nocs;
 			%% write exec;
@@ -218,7 +221,7 @@ namespace NSemVersion
 				Minor = minor,
 				Patch = patch,
 				PreRelease = preRelease,
-				BuildInfo = buildInfo
+				BuildMetadata = buildMetadata
 			};
 		}
 	}

@@ -10,16 +10,16 @@ namespace NSemVersion
     /// <summary>
     /// Semantic version build metadata part
     /// </summary>
-    public sealed class BuildInfoPart : IReadOnlyList<string>, IEquatable<BuildInfoPart>, IComparable<BuildInfoPart>
+    public sealed class BuildMetadataPart : IReadOnlyList<string>, IEquatable<BuildMetadataPart>, IComparable<BuildMetadataPart>
     {
         readonly List<string> fragments;
 
-        public BuildInfoPart(string buildInfoPart)
+        public BuildMetadataPart(string buildInfoPart)
            : this(new SemVersionParser().ParseBuildInfo(buildInfoPart))
         {
         }
 
-        public BuildInfoPart(IEnumerable<string> fragments = null)
+        public BuildMetadataPart(IEnumerable<string> fragments = null)
         {
             if (fragments != null)
                 this.fragments = new List<string>(fragments);
@@ -53,39 +53,39 @@ namespace NSemVersion
 
         #region Compare
 
-        public static bool operator ==(BuildInfoPart part1, BuildInfoPart part2)
+        public static bool operator ==(BuildMetadataPart part1, BuildMetadataPart part2)
         {
-            return BuildInfoPart.Compare(part1, part2) == 0;
+            return BuildMetadataPart.Compare(part1, part2) == 0;
         }
 
-        public static bool operator !=(BuildInfoPart part1, BuildInfoPart part2)
+        public static bool operator !=(BuildMetadataPart part1, BuildMetadataPart part2)
         {
-            return BuildInfoPart.Compare(part1, part2) != 0;
+            return BuildMetadataPart.Compare(part1, part2) != 0;
         }
 
-        public static bool operator <(BuildInfoPart part1, BuildInfoPart part2)
+        public static bool operator <(BuildMetadataPart part1, BuildMetadataPart part2)
         {
-            return BuildInfoPart.Compare(part1, part2) < 0;
+            return BuildMetadataPart.Compare(part1, part2) < 0;
         }
 
-        public static bool operator >(BuildInfoPart part1, BuildInfoPart part2)
+        public static bool operator >(BuildMetadataPart part1, BuildMetadataPart part2)
         {
-            return BuildInfoPart.Compare(part1, part2) > 0;
+            return BuildMetadataPart.Compare(part1, part2) > 0;
         }
 
-        public static bool operator <=(BuildInfoPart part1, BuildInfoPart part2)
+        public static bool operator <=(BuildMetadataPart part1, BuildMetadataPart part2)
         {
-            return BuildInfoPart.Compare(part1, part2) <= 0;
+            return BuildMetadataPart.Compare(part1, part2) <= 0;
         }
 
-        public static bool operator >=(BuildInfoPart part1, BuildInfoPart part2)
+        public static bool operator >=(BuildMetadataPart part1, BuildMetadataPart part2)
         {
-            return BuildInfoPart.Compare(part1, part2) >= 0;
+            return BuildMetadataPart.Compare(part1, part2) >= 0;
         }
 
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as BuildInfoPart);
+            return this.Equals(obj as BuildMetadataPart);
         }
 
         public override int GetHashCode()
@@ -93,25 +93,25 @@ namespace NSemVersion
             return fragments.GetHashCode();
         }
 
-        public bool Equals(BuildInfoPart other)
+        public bool Equals(BuildMetadataPart other)
         {
             if (ReferenceEquals(this, other))
                 return true;
 
-            return BuildInfoPart.Compare(this, other) == 0;
+            return BuildMetadataPart.Compare(this, other) == 0;
         }
 
-        public int CompareTo(BuildInfoPart other)
+        public int CompareTo(BuildMetadataPart other)
         {
-            return BuildInfoPart.Compare(this, other);
+            return BuildMetadataPart.Compare(this, other);
         }
 
-        public static int Compare(BuildInfoPart part1, BuildInfoPart part2)
+        public static int Compare(BuildMetadataPart part1, BuildMetadataPart part2)
         {
-            return BuildInfoPart.Compare(part1, part2, BuildInfoPartComparer.Default);
+            return BuildMetadataPart.Compare(part1, part2, BuildMetadataPartComparer.Default);
         }
 
-        public static int Compare(BuildInfoPart part1, BuildInfoPart part2, IComparer<BuildInfoPart> comparer)
+        public static int Compare(BuildMetadataPart part1, BuildMetadataPart part2, IComparer<BuildMetadataPart> comparer)
         {
             if (comparer == null)
                 throw new ArgumentNullException("comparer");
@@ -123,12 +123,12 @@ namespace NSemVersion
 
         #region Parsing
 
-        public static BuildInfoPart Parse(string buildInfo)
+        public static BuildMetadataPart Parse(string buildInfo)
         {
-            return new BuildInfoPart(buildInfo);
+            return new BuildMetadataPart(buildInfo);
         }
 
-        public static bool TryParse(string text, out BuildInfoPart buildInfo)
+        public static bool TryParse(string text, out BuildMetadataPart buildInfo)
         {
             buildInfo = null;
             try
@@ -149,9 +149,9 @@ namespace NSemVersion
         #endregion
 
 
-        public static implicit operator BuildInfoPart(string value)
+        public static implicit operator BuildMetadataPart(string value)
         {
-            return new BuildInfoPart(value);
+            return new BuildMetadataPart(value);
         }
 
         public override string ToString()

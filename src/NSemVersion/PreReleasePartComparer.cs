@@ -11,48 +11,51 @@ namespace NSemVersion
     /// </summary>
     public sealed class PreReleasePartComparer : IComparer<PreReleasePart>
     {
-        private static readonly Lazy<PreReleasePartComparer> @default = new Lazy<PreReleasePartComparer>();
-
         /// <summary>
         /// Default comparer
         /// </summary>
-        public static PreReleasePartComparer Default 
-        { 
-            get { return @default.Value; } 
-        }
+        public static readonly PreReleasePartComparer Default = new PreReleasePartComparer();
 
         public int Compare(PreReleasePart part1, PreReleasePart part2)
         {
+            int result = 0;
+
             if (ReferenceEquals(part1, part2))
                 return 0;
 
-            var v1empty = part1.IsEmpty();
-            var v2empty = part2.IsEmpty();
+            var p1Empty = part1.IsEmpty();
+            var p2Empty = part2.IsEmpty();
 
             // handle special cases with empty prerelease
-            if (v1empty && v2empty)
+            if (p1Empty && p2Empty)
                 return 0;
-            else if (v1empty && !v2empty)
+            else if (p1Empty && !p2Empty)
                 return 1;
-            else if (!v1empty && v2empty)
+            else if (!p1Empty && p2Empty)
                 return -1;
 
-            for (int i = 0; i < part1.Count; i++)
+            var p1Fragments = part1.GetEnumerator();
+            var p2Fragments = part2.GetEnumerator();
+
+            var f1Exists = p1Fragments.MoveNext();
+            var f2Exists = p2Fragments.MoveNext();
+
+            while (f1Exists || f2Exists)
             {
-                // no more tokens right
-                if (part2.Count <= i)
+                if (!f1Exists && f2Exists)
+                    return -1;
+                if (f1Exists && !f2Exists)
                     return 1;
 
-                var compare = PreReleasePartFragmentComparer.Default.Compare(part1[i], part2[i]);
-                if (compare != 0)
-                    return compare;
+                result = p1Fragments.Current.CompareTo(p2Fragments.Current);
+                if (result != 0)
+                    return result;
+
+                f1Exists = p1Fragments.MoveNext();
+                f2Exists = p2Fragments.MoveNext();
             }
 
-            // all previous tokens were equal
-            if (part2.Count > part1.Count)
-                return -1;
-            else
-                return 0;
+            return result;
         }
     }
 }

@@ -11,12 +11,10 @@ namespace NSemVersion
     /// </summary>
     public sealed partial class SemVersionParser
     {
-        private static readonly Lazy<SemVersionParser> @default = new Lazy<SemVersionParser>();
-
-        public static SemVersionParser Default
-        {
-            get { return @default.Value; }
-        }
+        /// <summary>
+        /// Default parser instance
+        /// </summary>
+        public static readonly SemVersionParser Default = new SemVersionParser();
 
         public ParsedFragments Parse(string input)
         {
@@ -40,8 +38,8 @@ namespace NSemVersion
             if (String.IsNullOrWhiteSpace(input))
                 throw new ArgumentNullException("input", "String 'input' cannot be null or empty");
 
-            var parsed = RagelParseCore(semver_en_buildinfo, input);
-            return parsed.BuildInfo;
+            var parsed = RagelParseCore(semver_en_buildmetadata, input);
+            return parsed.BuildMetadata;
         }
 
         private static SemVersionParseException CreateParsingException(string input, int index, bool isEof, string context = null)
@@ -74,7 +72,7 @@ namespace NSemVersion
 
             public IList<PreReleasePartFragment> PreRelease { get; set; }
 
-            public IList<string> BuildInfo { get; set; }
+            public IList<string> BuildMetadata { get; set; }
         }
     }
 }

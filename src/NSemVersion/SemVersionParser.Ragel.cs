@@ -22,16 +22,15 @@ namespace NSemVersion
 	public sealed partial class SemVersionParser
 	{    
 		
-#line 187 "SemVersionParser.Ragel.rl"
+#line 190 "SemVersionParser.Ragel.rl"
 
 		
 		
 #line 30 "SemVersionParser.Ragel.cs"
 static readonly sbyte[] _semver_eof_actions =  new sbyte [] {
 	0, 1, 1, 4, 4, 6, 7, 7, 
-	10, 10, 4, 1, 17, 17, 7, 7, 
-	23, 25, 27, 27, 27, 27, 23, 27, 
-	27, 27, 27, 25
+	10, 10, 4, 1, 16, 16, 7, 7, 
+	21, 23, 25, 25, 21, 25, 25, 23
 };
 
 const int semver_start = 1;
@@ -40,10 +39,10 @@ const int semver_error = 0;
 
 const int semver_en_main = 1;
 const int semver_en_prerelease = 12;
-const int semver_en_buildinfo = 14;
+const int semver_en_buildmetadata = 14;
 
 
-#line 190 "SemVersionParser.Ragel.rl"
+#line 193 "SemVersionParser.Ragel.rl"
 
 		#if (!TRACE_FSM)
 			[System.Diagnostics.DebuggerStepThrough]
@@ -64,18 +63,17 @@ const int semver_en_buildinfo = 14;
 			// parsing context
 			int major = 0, minor = 0, patch = 0;
 			List<PreReleasePartFragment> preRelease = null;
-			List<string> buildInfo = null;
+			List<string> buildMetadata = null;
 
 			
-#line 71 "SemVersionParser.Ragel.cs"
+#line 70 "SemVersionParser.Ragel.cs"
 	{
 	}
 
-#line 213 "SemVersionParser.Ragel.rl"
+#line 216 "SemVersionParser.Ragel.rl"
 			
-#line 77 "SemVersionParser.Ragel.cs"
+#line 76 "SemVersionParser.Ragel.cs"
 	{
-	int _widec;
 	if ( p == pe )
 		goto _test_eof;
 	if ( cs == 0 )
@@ -112,11 +110,11 @@ case 5:
 	goto tr8;
 case 16:
 	switch( data[p] ) {
-		case '\u002b': goto tr35;
-		case '\u002d': goto tr36;
+		case '\u002b': goto tr31;
+		case '\u002d': goto tr32;
 		default: break;
 	}
-	goto tr34;
+	goto tr30;
 case 6:
 	if ( data[p] == 45u )
 		goto tr12;
@@ -132,7 +130,7 @@ case 6:
 case 17:
 	switch( data[p] ) {
 		case '\u002d': goto tr13;
-		case '\u002e': goto tr37;
+		case '\u002e': goto tr33;
 		default: break;
 	}
 	if ( data[p] < 65u ) {
@@ -157,125 +155,76 @@ case 7:
 		goto tr13;
 	goto tr11;
 case 8:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
+	switch( data[p] ) {
 		case '\u002d': goto tr15;
-		case 65584: goto tr17;
-		case 131120: goto tr18;
+		case '\u0030': goto tr16;
 		default: break;
 	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr16;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
+	if ( data[p] < 65u ) {
+		if ( 49u <= data[p] && data[p] <= 57u )
+			goto tr17;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
 			goto tr15;
 	} else
 		goto tr15;
 	goto tr14;
 case 18:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
-		case '\u002b': goto tr39;
-		case '\u002d': goto tr19;
-		case '\u002e': goto tr40;
-		case 131120: goto tr22;
-		default: break;
-	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr22;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
-			goto tr19;
-	} else
-		goto tr19;
-	goto tr38;
-case 9:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
-		case '\u002d': goto tr19;
-		case 65584: goto tr21;
-		case 131120: goto tr22;
-		default: break;
-	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr20;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
-			goto tr19;
-	} else
-		goto tr19;
-	goto tr14;
-case 19:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
-		case '\u002b': goto tr39;
-		case '\u002d': goto tr19;
-		case '\u002e': goto tr40;
-		case 65584: goto tr41;
-		case 131120: goto tr20;
-		default: break;
-	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr20;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
-			goto tr19;
-	} else
-		goto tr19;
-	goto tr38;
-case 20:
-	switch( data[p] ) {
-		case '\u002b': goto tr39;
-		case '\u002e': goto tr40;
-		default: break;
-	}
-	if ( 48u <= data[p] && data[p] <= 57u )
-		goto tr41;
-	goto tr38;
-case 21:
-	switch( data[p] ) {
-		case '\u002b': goto tr39;
-		case '\u002e': goto tr40;
-		default: break;
-	}
-	goto tr38;
-case 22:
 	switch( data[p] ) {
 		case '\u002b': goto tr35;
-		case '\u002d': goto tr36;
+		case '\u002d': goto tr18;
+		case '\u002e': goto tr36;
+		default: break;
+	}
+	if ( data[p] < 65u ) {
+		if ( 48u <= data[p] && data[p] <= 57u )
+			goto tr19;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
+			goto tr18;
+	} else
+		goto tr18;
+	goto tr34;
+case 9:
+	switch( data[p] ) {
+		case '\u002d': goto tr18;
+		case '\u0030': goto tr19;
+		default: break;
+	}
+	if ( data[p] < 65u ) {
+		if ( 49u <= data[p] && data[p] <= 57u )
+			goto tr20;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
+			goto tr18;
+	} else
+		goto tr18;
+	goto tr14;
+case 19:
+	switch( data[p] ) {
+		case '\u002b': goto tr35;
+		case '\u002d': goto tr18;
+		case '\u002e': goto tr36;
+		default: break;
+	}
+	if ( data[p] < 65u ) {
+		if ( 48u <= data[p] && data[p] <= 57u )
+			goto tr20;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
+			goto tr18;
+	} else
+		goto tr18;
+	goto tr34;
+case 20:
+	switch( data[p] ) {
+		case '\u002b': goto tr31;
+		case '\u002d': goto tr32;
 		default: break;
 	}
 	if ( 48u <= data[p] && data[p] <= 57u )
 		goto tr10;
-	goto tr34;
+	goto tr30;
 case 10:
 	if ( data[p] == 46u )
 		goto tr7;
@@ -289,146 +238,103 @@ case 11:
 		goto tr2;
 	goto tr0;
 case 12:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
-		case '\u002d': goto tr24;
-		case 65584: goto tr26;
-		case 131120: goto tr27;
+	switch( data[p] ) {
+		case '\u002d': goto tr22;
+		case '\u0030': goto tr23;
 		default: break;
 	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr25;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
+	if ( data[p] < 65u ) {
+		if ( 49u <= data[p] && data[p] <= 57u )
 			goto tr24;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
+			goto tr22;
 	} else
-		goto tr24;
-	goto tr23;
-case 23:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
-		case '\u002d': goto tr28;
-		case '\u002e': goto tr42;
-		case 131120: goto tr31;
+		goto tr22;
+	goto tr21;
+case 21:
+	switch( data[p] ) {
+		case '\u002d': goto tr25;
+		case '\u002e': goto tr37;
 		default: break;
 	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr31;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
-			goto tr28;
+	if ( data[p] < 65u ) {
+		if ( 48u <= data[p] && data[p] <= 57u )
+			goto tr26;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
+			goto tr25;
 	} else
-		goto tr28;
-	goto tr23;
+		goto tr25;
+	goto tr21;
 case 13:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
-		case '\u002d': goto tr28;
-		case 65584: goto tr30;
-		case 131120: goto tr31;
+	switch( data[p] ) {
+		case '\u002d': goto tr25;
+		case '\u0030': goto tr26;
 		default: break;
 	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr29;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
-			goto tr28;
+	if ( data[p] < 65u ) {
+		if ( 49u <= data[p] && data[p] <= 57u )
+			goto tr27;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
+			goto tr25;
 	} else
-		goto tr28;
-	goto tr23;
-case 24:
-	_widec = data[p];
-	if ( 48u <= data[p] && data[p] <= 48u ) {
-		_widec = (int)(65536u + (data[p] - 0u));
-		if ( 
-#line 47 "SemVersionParser.Ragel.rl"
- sb.Length > 0  ) _widec += 65536;
-	}
-	switch( _widec ) {
-		case '\u002d': goto tr28;
-		case '\u002e': goto tr42;
-		case 65584: goto tr43;
-		case 131120: goto tr29;
+		goto tr25;
+	goto tr21;
+case 22:
+	switch( data[p] ) {
+		case '\u002d': goto tr25;
+		case '\u002e': goto tr37;
 		default: break;
 	}
-	if ( _widec < 65u ) {
-		if ( 49u <= _widec && _widec <= 57u )
-			goto tr29;
-	} else if ( _widec > 90u ) {
-		if ( 97u <= _widec && _widec <= 122u )
-			goto tr28;
+	if ( data[p] < 65u ) {
+		if ( 48u <= data[p] && data[p] <= 57u )
+			goto tr27;
+	} else if ( data[p] > 90u ) {
+		if ( 97u <= data[p] && data[p] <= 122u )
+			goto tr25;
 	} else
-		goto tr28;
-	goto tr23;
-case 25:
-	if ( data[p] == 46u )
-		goto tr42;
-	if ( 48u <= data[p] && data[p] <= 57u )
-		goto tr43;
-	goto tr23;
-case 26:
-	if ( data[p] == 46u )
-		goto tr42;
-	goto tr23;
+		goto tr25;
+	goto tr21;
 case 14:
 	if ( data[p] == 45u )
-		goto tr32;
+		goto tr28;
 	if ( data[p] < 65u ) {
 		if ( 48u <= data[p] && data[p] <= 57u )
-			goto tr32;
+			goto tr28;
 	} else if ( data[p] > 90u ) {
 		if ( 97u <= data[p] && data[p] <= 122u )
-			goto tr32;
+			goto tr28;
 	} else
-		goto tr32;
+		goto tr28;
 	goto tr11;
-case 27:
+case 23:
 	switch( data[p] ) {
-		case '\u002d': goto tr33;
-		case '\u002e': goto tr44;
+		case '\u002d': goto tr29;
+		case '\u002e': goto tr38;
 		default: break;
 	}
 	if ( data[p] < 65u ) {
 		if ( 48u <= data[p] && data[p] <= 57u )
-			goto tr33;
+			goto tr29;
 	} else if ( data[p] > 90u ) {
 		if ( 97u <= data[p] && data[p] <= 122u )
-			goto tr33;
+			goto tr29;
 	} else
-		goto tr33;
+		goto tr29;
 	goto tr11;
 case 15:
 	if ( data[p] == 45u )
-		goto tr33;
+		goto tr29;
 	if ( data[p] < 65u ) {
 		if ( 48u <= data[p] && data[p] <= 57u )
-			goto tr33;
+			goto tr29;
 	} else if ( data[p] > 90u ) {
 		if ( 97u <= data[p] && data[p] <= 122u )
-			goto tr33;
+			goto tr29;
 	} else
-		goto tr33;
+		goto tr29;
 	goto tr11;
 		default: break;
 	}
@@ -438,46 +344,40 @@ case 15:
 	tr8: cs = 0; goto f5;
 	tr11: cs = 0; goto f6;
 	tr14: cs = 0; goto f9;
-	tr23: cs = 0; goto f16;
-	tr34: cs = 0; goto f23;
-	tr38: cs = 0; goto f27;
+	tr21: cs = 0; goto f15;
+	tr30: cs = 0; goto f21;
+	tr34: cs = 0; goto f25;
 	tr1: cs = 2; goto _again;
 	tr3: cs = 3; goto f2;
 	tr5: cs = 4; goto _again;
 	tr7: cs = 5; goto f4;
-	tr35: cs = 6; goto f22;
-	tr39: cs = 6; goto f26;
-	tr37: cs = 7; goto f25;
-	tr36: cs = 8; goto f22;
-	tr40: cs = 9; goto f28;
+	tr31: cs = 6; goto f20;
+	tr35: cs = 6; goto f24;
+	tr33: cs = 7; goto f23;
+	tr32: cs = 8; goto f20;
+	tr36: cs = 9; goto f26;
 	tr6: cs = 10; goto f1;
 	tr2: cs = 11; goto f1;
-	tr42: cs = 13; goto f28;
-	tr44: cs = 15; goto f25;
+	tr37: cs = 13; goto f26;
+	tr38: cs = 15; goto f23;
 	tr9: cs = 16; goto _again;
 	tr12: cs = 17; goto f7;
 	tr13: cs = 17; goto f8;
-	tr22: cs = 18; goto f8;
+	tr19: cs = 18; goto f8;
 	tr15: cs = 18; goto f10;
+	tr16: cs = 18; goto f11;
 	tr18: cs = 18; goto f13;
-	tr19: cs = 18; goto f14;
-	tr16: cs = 19; goto f11;
-	tr20: cs = 19; goto f15;
-	tr41: cs = 20; goto f1;
-	tr21: cs = 21; goto _again;
-	tr17: cs = 21; goto f12;
-	tr10: cs = 22; goto f1;
-	tr31: cs = 23; goto f8;
-	tr28: cs = 23; goto f14;
-	tr24: cs = 23; goto f17;
-	tr27: cs = 23; goto f20;
-	tr29: cs = 24; goto f15;
-	tr25: cs = 24; goto f18;
-	tr43: cs = 25; goto f1;
-	tr30: cs = 26; goto _again;
-	tr26: cs = 26; goto f19;
-	tr33: cs = 27; goto f8;
-	tr32: cs = 27; goto f21;
+	tr17: cs = 19; goto f12;
+	tr20: cs = 19; goto f14;
+	tr10: cs = 20; goto f1;
+	tr26: cs = 21; goto f8;
+	tr25: cs = 21; goto f13;
+	tr22: cs = 21; goto f16;
+	tr23: cs = 21; goto f17;
+	tr27: cs = 22; goto f14;
+	tr24: cs = 22; goto f18;
+	tr29: cs = 23; goto f8;
+	tr28: cs = 23; goto f19;
 
 f1:
 #line 26 "SemVersionParser.Ragel.rl"
@@ -497,8 +397,8 @@ f8:
 			#endif
 		}
 	goto _again;
-f22:
-#line 73 "SemVersionParser.Ragel.rl"
+f20:
+#line 71 "SemVersionParser.Ragel.rl"
 	{ 
 			patch = val;
 			#if (TRACE_FSM)
@@ -506,40 +406,31 @@ f22:
 			#endif
 		}
 	goto _again;
-f19:
-#line 109 "SemVersionParser.Ragel.rl"
-	{			
-			preRelease = new List<PreReleasePartFragment>();
-			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("start_prerelease");
-			#endif
-		}
-	goto _again;
 f0:
-#line 143 "SemVersionParser.Ragel.rl"
+#line 146 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "major version");
 		}
 	goto _again;
 f3:
-#line 147 "SemVersionParser.Ragel.rl"
+#line 150 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "minor version");
 		}
 	goto _again;
 f5:
-#line 151 "SemVersionParser.Ragel.rl"
+#line 154 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "patch version part");
 		}
 	goto _again;
 f9:
-#line 155 "SemVersionParser.Ragel.rl"
+#line 158 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "preRelease");
 		}
 	goto _again;
-f15:
+f14:
 #line 26 "SemVersionParser.Ragel.rl"
 	{ 
 			val = val * 10 + (int)Char.GetNumericValue(data[p]);			
@@ -556,7 +447,7 @@ f15:
 		}
 	goto _again;
 f2:
-#line 57 "SemVersionParser.Ragel.rl"
+#line 55 "SemVersionParser.Ragel.rl"
 	{ 
 			major = val;
 			#if (TRACE_FSM)
@@ -572,7 +463,7 @@ f2:
 		}
 	goto _again;
 f4:
-#line 65 "SemVersionParser.Ragel.rl"
+#line 63 "SemVersionParser.Ragel.rl"
 	{ 
 			minor = val;
 			#if (TRACE_FSM)
@@ -587,8 +478,8 @@ f4:
 			#endif
 		}
 	goto _again;
-f14:
-#line 89 "SemVersionParser.Ragel.rl"
+f13:
+#line 87 "SemVersionParser.Ragel.rl"
 	{			
 			hasAlpha = true;
 			#if (TRACE_FSM)
@@ -603,27 +494,32 @@ f14:
 			#endif
 		}
 	goto _again;
-f26:
-#line 97 "SemVersionParser.Ragel.rl"
+f24:
+#line 95 "SemVersionParser.Ragel.rl"
 	{
 			if (hasAlpha)
 				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
 			else
+			{
+				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
+
 				preRelease.Add(new PreReleasePartFragment(val));
+			}
 
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine(String.Format("on_prerelease_fragment text={0}, val={1}, isNumeric={2}", sb.ToString(), val, !hasAlpha));
 			#endif
 		}
-#line 117 "SemVersionParser.Ragel.rl"
+#line 120 "SemVersionParser.Ragel.rl"
 	{
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine(String.Format("on_prerelease preRelease:{0}", preRelease.ToString()));
 			#endif
 		}
 	goto _again;
-f20:
-#line 109 "SemVersionParser.Ragel.rl"
+f17:
+#line 112 "SemVersionParser.Ragel.rl"
 	{			
 			preRelease = new List<PreReleasePartFragment>();
 			#if (TRACE_FSM)
@@ -638,15 +534,15 @@ f20:
 			#endif
 		}
 	goto _again;
-f12:
-#line 109 "SemVersionParser.Ragel.rl"
+f23:
+#line 126 "SemVersionParser.Ragel.rl"
 	{			
-			preRelease = new List<PreReleasePartFragment>();
+			buildMetadata.Add(sb.ToString());
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("start_prerelease");
+				System.Diagnostics.Trace.WriteLine(String.Format("on_buildmetadata_fragment text={0}", sb.ToString()));
 			#endif
 		}
-#line 49 "SemVersionParser.Ragel.rl"
+#line 47 "SemVersionParser.Ragel.rl"
 	{		
 			sb.Clear();
 			#if (TRACE_FSM)
@@ -654,28 +550,12 @@ f12:
 			#endif
 		}
 	goto _again;
-f25:
-#line 123 "SemVersionParser.Ragel.rl"
-	{			
-			buildInfo.Add(sb.ToString());
-			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine(String.Format("on_buildinfo_fragment text={0}", sb.ToString()));
-			#endif
-		}
-#line 49 "SemVersionParser.Ragel.rl"
-	{		
-			sb.Clear();
-			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("clearbuf");
-			#endif
-		}
-	goto _again;
-f21:
-#line 130 "SemVersionParser.Ragel.rl"
+f19:
+#line 133 "SemVersionParser.Ragel.rl"
 	{
-			buildInfo = new List<string>();
+			buildMetadata = new List<string>();
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("start_buildinfo");
+				System.Diagnostics.Trace.WriteLine("start_buildmetadata");
 			#endif					
 		}
 #line 40 "SemVersionParser.Ragel.rl"
@@ -686,28 +566,28 @@ f21:
 			#endif
 		}
 	goto _again;
-f16:
-#line 155 "SemVersionParser.Ragel.rl"
+f15:
+#line 158 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "preRelease");
 		}
-#line 163 "SemVersionParser.Ragel.rl"
+#line 166 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof);
 		}
 	goto _again;
 f6:
-#line 159 "SemVersionParser.Ragel.rl"
+#line 162 "SemVersionParser.Ragel.rl"
 	{
-			throw CreateParsingException(input, p, p == eof, "buildInfo");
+			throw CreateParsingException(input, p, p == eof, "buildMetadata");
 		}
-#line 163 "SemVersionParser.Ragel.rl"
+#line 166 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof);
 		}
 	goto _again;
 f18:
-#line 109 "SemVersionParser.Ragel.rl"
+#line 112 "SemVersionParser.Ragel.rl"
 	{			
 			preRelease = new List<PreReleasePartFragment>();
 			#if (TRACE_FSM)
@@ -729,15 +609,15 @@ f18:
 			#endif
 		}
 	goto _again;
-f13:
-#line 109 "SemVersionParser.Ragel.rl"
+f11:
+#line 112 "SemVersionParser.Ragel.rl"
 	{			
 			preRelease = new List<PreReleasePartFragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
 		}
-#line 49 "SemVersionParser.Ragel.rl"
+#line 47 "SemVersionParser.Ragel.rl"
 	{		
 			sb.Clear();
 			#if (TRACE_FSM)
@@ -752,15 +632,15 @@ f13:
 			#endif
 		}
 	goto _again;
-f17:
-#line 109 "SemVersionParser.Ragel.rl"
+f16:
+#line 112 "SemVersionParser.Ragel.rl"
 	{			
 			preRelease = new List<PreReleasePartFragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
 		}
-#line 89 "SemVersionParser.Ragel.rl"
+#line 87 "SemVersionParser.Ragel.rl"
 	{			
 			hasAlpha = true;
 			#if (TRACE_FSM)
@@ -776,14 +656,14 @@ f17:
 		}
 	goto _again;
 f7:
-#line 130 "SemVersionParser.Ragel.rl"
+#line 133 "SemVersionParser.Ragel.rl"
 	{
-			buildInfo = new List<string>();
+			buildMetadata = new List<string>();
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("start_buildinfo");
+				System.Diagnostics.Trace.WriteLine("start_buildmetadata");
 			#endif					
 		}
-#line 49 "SemVersionParser.Ragel.rl"
+#line 47 "SemVersionParser.Ragel.rl"
 	{		
 			sb.Clear();
 			#if (TRACE_FSM)
@@ -798,33 +678,38 @@ f7:
 			#endif
 		}
 	goto _again;
-f27:
-#line 155 "SemVersionParser.Ragel.rl"
+f25:
+#line 158 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "preRelease");
 		}
-#line 159 "SemVersionParser.Ragel.rl"
+#line 162 "SemVersionParser.Ragel.rl"
 	{
-			throw CreateParsingException(input, p, p == eof, "buildInfo");
+			throw CreateParsingException(input, p, p == eof, "buildMetadata");
 		}
-#line 163 "SemVersionParser.Ragel.rl"
+#line 166 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof);
 		}
 	goto _again;
-f28:
-#line 97 "SemVersionParser.Ragel.rl"
+f26:
+#line 95 "SemVersionParser.Ragel.rl"
 	{
 			if (hasAlpha)
 				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
 			else
+			{
+				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
+
 				preRelease.Add(new PreReleasePartFragment(val));
+			}
 
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine(String.Format("on_prerelease_fragment text={0}, val={1}, isNumeric={2}", sb.ToString(), val, !hasAlpha));
 			#endif
 		}
-#line 49 "SemVersionParser.Ragel.rl"
+#line 47 "SemVersionParser.Ragel.rl"
 	{		
 			sb.Clear();
 			#if (TRACE_FSM)
@@ -838,7 +723,7 @@ f28:
 				System.Diagnostics.Trace.WriteLine("clearval");
 			#endif
 		}
-#line 81 "SemVersionParser.Ragel.rl"
+#line 79 "SemVersionParser.Ragel.rl"
 	{			
 			hasAlpha = false;
 			#if (TRACE_FSM)
@@ -846,15 +731,15 @@ f28:
 			#endif
 		}
 	goto _again;
-f11:
-#line 109 "SemVersionParser.Ragel.rl"
+f12:
+#line 112 "SemVersionParser.Ragel.rl"
 	{			
 			preRelease = new List<PreReleasePartFragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
 		}
-#line 49 "SemVersionParser.Ragel.rl"
+#line 47 "SemVersionParser.Ragel.rl"
 	{		
 			sb.Clear();
 			#if (TRACE_FSM)
@@ -877,21 +762,21 @@ f11:
 		}
 	goto _again;
 f10:
-#line 109 "SemVersionParser.Ragel.rl"
+#line 112 "SemVersionParser.Ragel.rl"
 	{			
 			preRelease = new List<PreReleasePartFragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
 		}
-#line 49 "SemVersionParser.Ragel.rl"
+#line 47 "SemVersionParser.Ragel.rl"
 	{		
 			sb.Clear();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("clearbuf");
 			#endif
 		}
-#line 89 "SemVersionParser.Ragel.rl"
+#line 87 "SemVersionParser.Ragel.rl"
 	{			
 			hasAlpha = true;
 			#if (TRACE_FSM)
@@ -906,20 +791,20 @@ f10:
 			#endif
 		}
 	goto _again;
-f23:
-#line 151 "SemVersionParser.Ragel.rl"
+f21:
+#line 154 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "patch version part");
 		}
-#line 155 "SemVersionParser.Ragel.rl"
+#line 158 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "preRelease");
 		}
-#line 159 "SemVersionParser.Ragel.rl"
+#line 162 "SemVersionParser.Ragel.rl"
 	{
-			throw CreateParsingException(input, p, p == eof, "buildInfo");
+			throw CreateParsingException(input, p, p == eof, "buildMetadata");
 		}
-#line 163 "SemVersionParser.Ragel.rl"
+#line 166 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof);
 		}
@@ -934,8 +819,8 @@ _again:
 	if ( p == eof )
 	{
 	switch ( _semver_eof_actions[cs] ) {
-	case 23:
-#line 73 "SemVersionParser.Ragel.rl"
+	case 21:
+#line 71 "SemVersionParser.Ragel.rl"
 	{ 
 			patch = val;
 			#if (TRACE_FSM)
@@ -944,84 +829,89 @@ _again:
 		}
 	break;
 	case 1:
-#line 143 "SemVersionParser.Ragel.rl"
+#line 146 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "major version");
 		}
 	break;
 	case 4:
-#line 147 "SemVersionParser.Ragel.rl"
+#line 150 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "minor version");
 		}
 	break;
 	case 6:
-#line 151 "SemVersionParser.Ragel.rl"
+#line 154 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "patch version part");
 		}
 	break;
 	case 10:
-#line 155 "SemVersionParser.Ragel.rl"
+#line 158 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "preRelease");
 		}
 	break;
-	case 27:
-#line 97 "SemVersionParser.Ragel.rl"
+	case 25:
+#line 95 "SemVersionParser.Ragel.rl"
 	{
 			if (hasAlpha)
 				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
 			else
+			{
+				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
+
 				preRelease.Add(new PreReleasePartFragment(val));
+			}
 
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine(String.Format("on_prerelease_fragment text={0}, val={1}, isNumeric={2}", sb.ToString(), val, !hasAlpha));
 			#endif
 		}
-#line 117 "SemVersionParser.Ragel.rl"
+#line 120 "SemVersionParser.Ragel.rl"
 	{
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine(String.Format("on_prerelease preRelease:{0}", preRelease.ToString()));
 			#endif
 		}
 	break;
-	case 25:
-#line 123 "SemVersionParser.Ragel.rl"
+	case 23:
+#line 126 "SemVersionParser.Ragel.rl"
 	{			
-			buildInfo.Add(sb.ToString());
+			buildMetadata.Add(sb.ToString());
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine(String.Format("on_buildinfo_fragment text={0}", sb.ToString()));
+				System.Diagnostics.Trace.WriteLine(String.Format("on_buildmetadata_fragment text={0}", sb.ToString()));
 			#endif
 		}
-#line 137 "SemVersionParser.Ragel.rl"
+#line 140 "SemVersionParser.Ragel.rl"
 	{
 			#if (TRACE_FSM)
-				System.Diagnostics.Trace.WriteLine("on_buildinfo");
+				System.Diagnostics.Trace.WriteLine("on_buildmetadata");
 			#endif
 		}
 	break;
-	case 17:
-#line 155 "SemVersionParser.Ragel.rl"
+	case 16:
+#line 158 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof, "preRelease");
 		}
-#line 163 "SemVersionParser.Ragel.rl"
+#line 166 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof);
 		}
 	break;
 	case 7:
-#line 159 "SemVersionParser.Ragel.rl"
+#line 162 "SemVersionParser.Ragel.rl"
 	{
-			throw CreateParsingException(input, p, p == eof, "buildInfo");
+			throw CreateParsingException(input, p, p == eof, "buildMetadata");
 		}
-#line 163 "SemVersionParser.Ragel.rl"
+#line 166 "SemVersionParser.Ragel.rl"
 	{
 			throw CreateParsingException(input, p, p == eof);
 		}
 	break;
-#line 1025 "SemVersionParser.Ragel.cs"
+#line 915 "SemVersionParser.Ragel.cs"
 		default: break;
 	}
 	}
@@ -1029,7 +919,7 @@ _again:
 	_out: {}
 	}
 
-#line 214 "SemVersionParser.Ragel.rl"
+#line 217 "SemVersionParser.Ragel.rl"
 
 			return new ParsedFragments
 			{
@@ -1037,7 +927,7 @@ _again:
 				Minor = minor,
 				Patch = patch,
 				PreRelease = preRelease,
-				BuildInfo = buildInfo
+				BuildMetadata = buildMetadata
 			};
 		}
 	}

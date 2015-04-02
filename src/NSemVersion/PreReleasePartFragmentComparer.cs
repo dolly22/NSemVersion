@@ -11,12 +11,10 @@ namespace NSemVersion
     /// </summary>
     public sealed class PreReleasePartFragmentComparer : IComparer<PreReleasePartFragment>
     {
-        private static readonly Lazy<PreReleasePartFragmentComparer> @default = new Lazy<PreReleasePartFragmentComparer>();
-
-        public static PreReleasePartFragmentComparer Default 
-        { 
-            get { return @default.Value; } 
-        }
+        /// <summary>
+        /// Default comparer instance
+        /// </summary>
+        public static readonly PreReleasePartFragmentComparer Default = new PreReleasePartFragmentComparer();
 
         public int Compare(PreReleasePartFragment fragment1, PreReleasePartFragment fragment2)
         {
@@ -39,7 +37,8 @@ namespace NSemVersion
             if (fragment2.IsNumeric)
                 return 1;
 
-            return String.Compare(fragment1.TextValue, fragment2.TextValue, StringComparison.Ordinal);
+            // ignore case when compare (this is against semver 2.0.0 specification)
+            return String.Compare(fragment1.TextValue, fragment2.TextValue, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

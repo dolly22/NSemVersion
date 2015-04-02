@@ -11,33 +11,40 @@ namespace NSemVersion
     /// </summary>
     public class SemVersionComparer : IComparer<SemVersion>
     {
-        bool ignoreBuildInfo;
+        SemVersionCompareMode compareMode;
 
-        public SemVersionComparer(bool ignoreBuildInfo = false)
+        public SemVersionComparer(SemVersionCompareMode compareMode)
         {
-            this.ignoreBuildInfo = ignoreBuildInfo;
+            this.compareMode = compareMode;
         }
 
         #region Predefined instances
-
-        private static readonly Lazy<SemVersionComparer> @default = new Lazy<SemVersionComparer>();
-        private static readonly Lazy<SemVersionComparer> comparerIgnoreBuildInfo = new Lazy<SemVersionComparer>(() => new SemVersionComparer(true));
 
         /// <summary>
         /// Default comparer (compares using version, preRelase and build metadata
         /// </summary>
         public static SemVersionComparer Default
         {
-            get { return @default.Value; }
+            get { return VersionPreReleaseAndMetadata; }
         }
 
         /// <summary>
-        /// Comparer using version and preRelease (build metadata is ignored)
+        /// Compare using version only
         /// </summary>
-        public static SemVersionComparer IgnoreBuildInfo
-        {
-            get { return comparerIgnoreBuildInfo.Value; }
-        }
+        public static readonly SemVersionComparer VersionOnly
+            = new SemVersionComparer(SemVersionCompareMode.Version);
+
+        /// <summary>
+        /// Compare using version and preRelease (build metadata is ignored)
+        /// </summary>
+        public static readonly SemVersionComparer VersionAndPreRelease
+            = new SemVersionComparer(SemVersionCompareMode.VersionAndPrerelease);
+
+        /// <summary>
+        /// Compare using version and preRelease (build metadata is ignored)
+        /// </summary>
+        public static readonly SemVersionComparer VersionPreReleaseAndMetadata
+            = new SemVersionComparer(SemVersionCompareMode.VersionPreReleaseAndMetadata);
 
         #endregion
 
@@ -51,25 +58,37 @@ namespace NSemVersion
                 return -1;
 
             // diff at major
-            var majorDiff = v1.Major - v2.Major;
-            if (majorDiff != 0)
-                return majorDiff;
+            var result = v1.Major.CompareTo(v2.Major);
+            if (result != 0)
+                return result;
 
             // diff at minor
-            var minorDiff = v1.Minor - v2.Minor;
-            if (minorDiff != 0)
-                return minorDiff;
+            result = v1.Minor.CompareTo(v2.Minor);
+            if (result != 0)
+                return result;
 
             // diff at patch
-            var patchDiff = v1.Patch - v2.Patch;
-            if (patchDiff != 0)
-                return patchDiff;
+            result = v1.Patch.CompareTo(v2.Patch);
+            if (result != 0 || compareMode == SemVersionCompareMode.Version)
+                return result;
 
-            var preReleaseCompare = PreReleasePart.Compare(v1.PreRelease, v2.PreRelease);
-            if (preReleaseCompare != 0 || ignoreBuildInfo)
-                return preReleaseCompare;
+            result = PreReleasePart.Compare(v1.PreRelease, v2.PreRelease);
+            if (result != 0 || compareMode == SemVersionCompareMode.VersionAndPrerelease)
+                return result;
 
-            return BuildInfoPart.Compare(v1.BuildInfo, v2.BuildInfo);
+            return BuildMetadataPart.Compare(v1.BuildMetadata, v2.BuildMetadata);
         }
+    }
+
+    public enum SemVersionCompareMode
+    {
+        /// <summary>Compare by version only</summary>
+        Version,
+
+        /// <summary>Compare by version and pre-release</summary>
+        VersionAndPrerelease,
+
+        /// <summary>Compare by version pre-release and metadata</summary>
+        VersionPreReleaseAndMetadata
     }
 }

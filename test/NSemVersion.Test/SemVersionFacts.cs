@@ -14,6 +14,7 @@ namespace NSemVersion.Test
         [InlineData("123.456.789")]
         [InlineData("1.2.3-revision.123")]
         [InlineData("1.2.3-revision.123+build.456")]
+        [InlineData("1.2.3-revision.00a")]
         public void ParseAndSerializeTest(string version)
         {
             var ver = new SemVersion(version);

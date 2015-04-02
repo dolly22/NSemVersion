@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace NSemVersion
 {
-    public static class BuildInfoPartExtensions
+    public static class BuildMetadataPartExtensions
     {
-        public static bool IsEmpty(this BuildInfoPart buildInfoPart)
+        public static bool IsEmpty(this BuildMetadataPart buildInfoPart)
         {
             if (ReferenceEquals(buildInfoPart, null))
                 return true;
             return buildInfoPart.Count == 0;
         }
 
-        public static string FormatPart(this BuildInfoPart buildInfoPart)
+        public static string FormatPart(this BuildMetadataPart buildInfoPart)
         {
             if (buildInfoPart.IsEmpty())
                 return string.Empty;

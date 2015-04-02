@@ -9,19 +9,19 @@ namespace NSemVersion
     /// <summary>
     /// Comparer for build metadata parts
     /// </summary>
-    public sealed class BuildInfoPartComparer : IComparer<BuildInfoPart>
+    public sealed class BuildMetadataPartComparer : IComparer<BuildMetadataPart>
     {
-        private static readonly Lazy<BuildInfoPartComparer> @default = new Lazy<BuildInfoPartComparer>();
+        private static readonly Lazy<BuildMetadataPartComparer> @default = new Lazy<BuildMetadataPartComparer>();
 
         /// <summary>
         /// Default comparer
         /// </summary>
-        public static BuildInfoPartComparer Default 
+        public static BuildMetadataPartComparer Default 
         { 
             get { return @default.Value; } 
         }
 
-        public int Compare(BuildInfoPart part1, BuildInfoPart part2)
+        public int Compare(BuildMetadataPart part1, BuildMetadataPart part2)
         {
             if (ReferenceEquals(part1, part2))
                 return 0;

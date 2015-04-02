@@ -33,9 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BuildInfoPart.cs" />
-    <Compile Include="BuildInfoPartExtensions.cs" />
-    <Compile Include="BuildInfoPartComparer.cs" />
+    <Compile Include="BuildMetadataPart.cs" />
+    <Compile Include="BuildMetadataPartExtensions.cs" />
+    <Compile Include="BuildMetadataPartComparer.cs" />
     <Compile Include="PreReleasePartFragmentComparer.cs" />
     <Compile Include="PreReleasePartComparer.cs" />
     <Compile Include="PreReleasePartExtensions.cs" />

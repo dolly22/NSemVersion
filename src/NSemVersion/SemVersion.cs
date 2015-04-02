@@ -20,9 +20,9 @@ namespace NSemVersion
             int minor = default(int),
             int patch = default(int),
             PreReleasePart preRelease = null,
-            BuildInfoPart buildInfo = null)
+            BuildMetadataPart buildMetadata = null)
         {
-            InitFromParts(major, minor, patch, preRelease, buildInfo);
+            InitFromParts(major, minor, patch, preRelease, buildMetadata);
         }
 
         public SemVersion(string version)
@@ -48,16 +48,16 @@ namespace NSemVersion
                 fragments.Minor,
                 fragments.Patch,
                 new PreReleasePart(fragments.PreRelease),
-                new BuildInfoPart(fragments.BuildInfo));
+                new BuildMetadataPart(fragments.BuildMetadata));
         }
 
-        private void InitFromParts(int major, int minor, int patch, PreReleasePart preRelease, BuildInfoPart buildInfo)
+        private void InitFromParts(int major, int minor, int patch, PreReleasePart preRelease, BuildMetadataPart buildMetadata)
         {
             this.Major = major;
             this.Minor = minor;
             this.Patch = patch;
             this.PreRelease = preRelease;
-            this.BuildInfo = buildInfo;
+            this.BuildMetadata = buildMetadata;
         }
 
         public int Major {
@@ -103,7 +103,17 @@ namespace NSemVersion
 
         public PreReleasePart PreRelease { get; private set; }
 
-        public BuildInfoPart BuildInfo { get; private set; }
+        public bool IsPreRelease
+        {
+            get { return !PreRelease.IsEmpty(); }
+        }
+
+        public BuildMetadataPart BuildMetadata { get; private set; }
+
+        public bool HasBuildMetadata
+        {
+            get { return !BuildMetadata.IsEmpty(); }
+        }
 
         #region Compare
 
@@ -145,10 +155,10 @@ namespace NSemVersion
         public override int GetHashCode()
         {
             var versionHash = Major.GetHashCode() ^ Minor.GetHashCode() ^ Patch.GetHashCode();
-            if (PreRelease != null)
+            if (IsPreRelease)
                 versionHash ^= PreRelease.GetHashCode();
-            if (BuildInfo != null)
-                versionHash ^= BuildInfo.GetHashCode();
+            if (HasBuildMetadata)
+                versionHash ^= BuildMetadata.GetHashCode();
 
             return versionHash;
         }
@@ -164,6 +174,11 @@ namespace NSemVersion
         public int CompareTo(SemVersion other)
         {
             return SemVersion.Compare(this, other);
+        }
+
+        public int CompareTo(SemVersion other, IComparer<SemVersion> comparer)
+        {
+            return SemVersion.Compare(this, other, comparer);
         }
 
         public static int Compare(SemVersion v1, SemVersion v2)
@@ -208,9 +223,9 @@ namespace NSemVersion
 
         #endregion
 
-        #region Operators
+        #region Implicit operators
 
-        public static implicit operator SemVersion(string value)
+        public static explicit operator SemVersion(string value)
         {
             return new SemVersion(value);
         }
@@ -220,7 +235,7 @@ namespace NSemVersion
         public override string ToString()
         {
             return String.Format("{0}.{1}.{2}{3}{4}", 
-                Major, Minor, Patch, PreRelease.FormatPart(), BuildInfo.FormatPart());
+                Major, Minor, Patch, PreRelease.FormatPart(), BuildMetadata.FormatPart());
         }
     }
 }
