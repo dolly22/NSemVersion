@@ -10,26 +10,26 @@ namespace NSemVersion
     /// <summary>
     /// Semantic version preRelease part
     /// </summary>
-    public sealed class PreReleasePart : IReadOnlyList<PreReleasePartFragment>, IEquatable<PreReleasePart>, IComparable<PreReleasePart>
+    public sealed class PreReleasePart : IReadOnlyList<PreReleasePart.Fragment>, IEquatable<PreReleasePart>, IComparable<PreReleasePart>
     {
-        readonly List<PreReleasePartFragment> fragments;
+        readonly List<Fragment> fragments;
 
         public PreReleasePart(string preReleasePart)
-            : this(new SemVersionParser().ParsePreRelease(preReleasePart))
+            : this(SemVersionParser.Default.ParsePreRelease(preReleasePart))
         {
         }
 
-        public PreReleasePart(IEnumerable<PreReleasePartFragment> fragments = null)
+        public PreReleasePart(IEnumerable<Fragment> fragments = null)
         {
             if (fragments != null)
-                this.fragments = new List<PreReleasePartFragment>(fragments);
+                this.fragments = new List<Fragment>(fragments);
             else
-                this.fragments = new List<PreReleasePartFragment>();
+                this.fragments = new List<Fragment>();
         }
 
         #region IReadOnlyList<Fragment>
 
-        public PreReleasePartFragment this[int index]
+        public Fragment this[int index]
         {
             get { return fragments[index]; }
         }
@@ -39,7 +39,7 @@ namespace NSemVersion
             get { return fragments.Count; }
         }
 
-        public IEnumerator<PreReleasePartFragment> GetEnumerator()
+        public IEnumerator<Fragment> GetEnumerator()
         {
             return fragments.GetEnumerator();
         }
@@ -148,7 +148,7 @@ namespace NSemVersion
 
         #endregion
 
-        public static implicit operator PreReleasePart(string value)
+        public static explicit operator PreReleasePart(string value)
         {
             return new PreReleasePart(value);
         }
@@ -157,5 +157,63 @@ namespace NSemVersion
         {
             return String.Join(".", fragments);
         }
+
+        /// <summary>
+        /// Semantic version pre release part fragment
+        /// </summary>
+        public struct Fragment
+        {
+            public Fragment(string text)
+                : this()
+            {
+                if (String.IsNullOrWhiteSpace(text))
+                    throw new ArgumentNullException("text", "Parameter 'text' cannot be null or empty string");
+
+                // try to handle numeric values
+                int value;
+                if (int.TryParse(text, out value) && !IsNumericFormatValid(text, value))
+                    throw new ArgumentException("Numeric text representation is not valid, contains leading zeroes", "text");
+
+                this.TextValue = text;
+                this.NumericValue = null;
+            }
+
+            public Fragment(int value)
+                : this()
+            {
+                this.NumericValue = value;
+                this.TextValue = value.ToString();
+            }
+
+            public int? NumericValue { get; private set; }
+
+            public string TextValue { get; private set; }
+
+            public bool IsNumeric { get { return NumericValue.HasValue; } }
+
+            internal static bool IsNumericFormatValid(string text, int val)
+            {
+                if (String.IsNullOrWhiteSpace(text))
+                    throw new ArgumentNullException("text", "Parameter 'text' cannot be null or empty string");
+
+                return !((text.Length > 1 && val == 0) || (text[0] == '0' && val > 0));
+            }
+
+            public static implicit operator Fragment(string value)
+            {
+                return new Fragment(value);
+            }
+
+            public static implicit operator Fragment(int value)
+            {
+                return new Fragment(value);
+            }
+
+            public override string ToString()
+            {
+                return TextValue;
+            }
+        }
+
     }
 }

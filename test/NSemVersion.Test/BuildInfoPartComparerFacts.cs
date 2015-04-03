@@ -15,7 +15,7 @@ namespace NSemVersion.Test
         [InlineData("build.a", "build.b", -1)]
         public void CompareTheory(string part1, string part2, int expectedResult)
         {
-            var result = BuildMetadataPartComparer.Default.Compare(part1, part2);
+            var result = BuildMetadataPartComparer.Default.Compare(BuildMetadataPart.Parse(part1), BuildMetadataPart.Parse(part2));
 
             if (expectedResult < 0)
                 Assert.InRange(result, Int32.MinValue, -1);

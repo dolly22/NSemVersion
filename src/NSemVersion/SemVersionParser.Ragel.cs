@@ -62,7 +62,7 @@ const int semver_en_buildmetadata = 14;
 
 			// parsing context
 			int major = 0, minor = 0, patch = 0;
-			List<PreReleasePartFragment> preRelease = null;
+			List<PreReleasePart.Fragment> preRelease = null;
 			List<string> buildMetadata = null;
 
 			
@@ -498,13 +498,13 @@ f24:
 #line 95 "SemVersionParser.Ragel.rl"
 	{
 			if (hasAlpha)
-				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
+				preRelease.Add(new PreReleasePart.Fragment(sb.ToString()));
 			else
 			{
-				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+				if (!PreReleasePart.Fragment.IsNumericFormatValid(sb.ToString(), val))
 					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
 
-				preRelease.Add(new PreReleasePartFragment(val));
+				preRelease.Add(new PreReleasePart.Fragment(val));
 			}
 
 			#if (TRACE_FSM)
@@ -521,7 +521,7 @@ f24:
 f17:
 #line 112 "SemVersionParser.Ragel.rl"
 	{			
-			preRelease = new List<PreReleasePartFragment>();
+			preRelease = new List<PreReleasePart.Fragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
@@ -589,7 +589,7 @@ f6:
 f18:
 #line 112 "SemVersionParser.Ragel.rl"
 	{			
-			preRelease = new List<PreReleasePartFragment>();
+			preRelease = new List<PreReleasePart.Fragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
@@ -612,7 +612,7 @@ f18:
 f11:
 #line 112 "SemVersionParser.Ragel.rl"
 	{			
-			preRelease = new List<PreReleasePartFragment>();
+			preRelease = new List<PreReleasePart.Fragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
@@ -635,7 +635,7 @@ f11:
 f16:
 #line 112 "SemVersionParser.Ragel.rl"
 	{			
-			preRelease = new List<PreReleasePartFragment>();
+			preRelease = new List<PreReleasePart.Fragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
@@ -696,13 +696,13 @@ f26:
 #line 95 "SemVersionParser.Ragel.rl"
 	{
 			if (hasAlpha)
-				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
+				preRelease.Add(new PreReleasePart.Fragment(sb.ToString()));
 			else
 			{
-				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+				if (!PreReleasePart.Fragment.IsNumericFormatValid(sb.ToString(), val))
 					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
 
-				preRelease.Add(new PreReleasePartFragment(val));
+				preRelease.Add(new PreReleasePart.Fragment(val));
 			}
 
 			#if (TRACE_FSM)
@@ -734,7 +734,7 @@ f26:
 f12:
 #line 112 "SemVersionParser.Ragel.rl"
 	{			
-			preRelease = new List<PreReleasePartFragment>();
+			preRelease = new List<PreReleasePart.Fragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
@@ -764,7 +764,7 @@ f12:
 f10:
 #line 112 "SemVersionParser.Ragel.rl"
 	{			
-			preRelease = new List<PreReleasePartFragment>();
+			preRelease = new List<PreReleasePart.Fragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
@@ -856,13 +856,13 @@ _again:
 #line 95 "SemVersionParser.Ragel.rl"
 	{
 			if (hasAlpha)
-				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
+				preRelease.Add(new PreReleasePart.Fragment(sb.ToString()));
 			else
 			{
-				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+				if (!PreReleasePart.Fragment.IsNumericFormatValid(sb.ToString(), val))
 					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
 
-				preRelease.Add(new PreReleasePartFragment(val));
+				preRelease.Add(new PreReleasePart.Fragment(val));
 			}
 
 			#if (TRACE_FSM)

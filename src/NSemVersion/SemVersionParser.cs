@@ -24,7 +24,7 @@ namespace NSemVersion
             return RagelParseCore(semver_en_main, input);
         }
 
-        public IList<PreReleasePartFragment> ParsePreRelease(string input)
+        public IList<PreReleasePart.Fragment> ParsePreRelease(string input)
         {
             if (String.IsNullOrWhiteSpace(input))
                 throw new ArgumentNullException("input", "String 'input' cannot be null or empty");
@@ -70,7 +70,7 @@ namespace NSemVersion
 
             public int Patch { get; set; }
 
-            public IList<PreReleasePartFragment> PreRelease { get; set; }
+            public IList<PreReleasePart.Fragment> PreRelease { get; set; }
 
             public IList<string> BuildMetadata { get; set; }
         }

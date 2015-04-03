@@ -32,27 +32,33 @@ namespace NSemVersion
             // handle special cases with empty prerelease
             if (part1empty && part2empty)
                 return 0;
-            else if (part1empty && !part2empty)
+            if (part1empty && !part2empty)
                 return 1;
-            else if (!part1empty && part2empty)
+            if (!part1empty && part2empty)
                 return -1;
 
-            for (int i = 0; i < part1.Count; i++)
+            var p1Fragments = part1.GetEnumerator();
+            var p2Fragments = part2.GetEnumerator();
+
+            var f1Exists = p1Fragments.MoveNext();
+            var f2Exists = p2Fragments.MoveNext();
+
+            while (f1Exists || f2Exists)
             {
-                // no more tokens right
-                if (part2.Count <= i)
+                if (!f1Exists && f2Exists)
+                    return -1;
+                if (f1Exists && !f2Exists)
                     return 1;
 
-                var compare = String.Compare(part1[i], part2[i]);
-                if (compare != 0)
-                    return compare;
+                var result = String.Compare(p1Fragments.Current, p2Fragments.Current, StringComparison.OrdinalIgnoreCase);
+                if (result != 0)
+                    return result;
+
+                f1Exists = p1Fragments.MoveNext();
+                f2Exists = p2Fragments.MoveNext();
             }
 
-            // all previous tokens were equal
-            if (part2.Count > part1.Count)
-                return -1;
-            else
-                return 0;
+            return 0;
         }
     }
 }

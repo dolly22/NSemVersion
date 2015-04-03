@@ -36,10 +36,8 @@
     <Compile Include="BuildMetadataPart.cs" />
     <Compile Include="BuildMetadataPartExtensions.cs" />
     <Compile Include="BuildMetadataPartComparer.cs" />
-    <Compile Include="PreReleasePartFragmentComparer.cs" />
     <Compile Include="PreReleasePartComparer.cs" />
     <Compile Include="PreReleasePartExtensions.cs" />
-    <Compile Include="PreReleasePartFragment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SemVersion.cs" />
     <Compile Include="SemVersionComparer.cs" />

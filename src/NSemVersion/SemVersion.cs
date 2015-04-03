@@ -223,7 +223,7 @@ namespace NSemVersion
 
         #endregion
 
-        #region Implicit operators
+        #region operators
 
         public static explicit operator SemVersion(string value)
         {

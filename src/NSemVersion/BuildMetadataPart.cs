@@ -27,7 +27,7 @@ namespace NSemVersion
                 this.fragments = new List<string>();
         }
 
-        #region IReadOnlyList<Fragment>
+        #region IReadOnlyList<string>
 
         public string this[int index]
         {
@@ -148,8 +148,7 @@ namespace NSemVersion
 
         #endregion
 
-
-        public static implicit operator BuildMetadataPart(string value)
+        public static explicit operator BuildMetadataPart(string value)
         {
             return new BuildMetadataPart(value);
         }

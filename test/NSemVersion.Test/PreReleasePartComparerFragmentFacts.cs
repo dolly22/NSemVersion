@@ -7,7 +7,7 @@ using Xunit;
 
 namespace NSemVersion.Test
 {
-    public class PreReleasePartFragmentComparerFacts
+    public class PreReleasePartComparerFragmentFacts
     {
         [Theory]
         [InlineData("alpha", "alpha", 0)]
@@ -21,7 +21,7 @@ namespace NSemVersion.Test
         [InlineData(0, 1, -1)] // numbers compared by value
         public void CompareTheory(string fragment1, string fragment2, int expectedResult)
         {
-            var result = PreReleasePartFragmentComparer.Default.Compare(fragment1, fragment2);
+            var result = PreReleasePartComparer.Default.CompareFragments(fragment1, fragment2);
 
             if (expectedResult < 0)
                 Assert.InRange(result, Int32.MinValue, -1);

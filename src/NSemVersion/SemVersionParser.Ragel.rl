@@ -94,13 +94,13 @@ namespace NSemVersion
 		# pre release framgment parsed
 		action on_prerelease_fragment {
 			if (hasAlpha)
-				preRelease.Add(new PreReleasePartFragment(sb.ToString()));
+				preRelease.Add(new PreReleasePart.Fragment(sb.ToString()));
 			else
 			{
-				if (!PreReleasePartFragment.IsNumericFormatValid(sb.ToString(), val))
+				if (!PreReleasePart.Fragment.IsNumericFormatValid(sb.ToString(), val))
 					throw new SemVersionParseException(String.Format("PreRelease part contains leading zeroes '{0}'", sb.ToString()));
 
-				preRelease.Add(new PreReleasePartFragment(val));
+				preRelease.Add(new PreReleasePart.Fragment(val));
 			}
 
 			#if (TRACE_FSM)
@@ -110,7 +110,7 @@ namespace NSemVersion
 
 		# pre release part parsing started
 		action start_prerelease {			
-			preRelease = new List<PreReleasePartFragment>();
+			preRelease = new List<PreReleasePart.Fragment>();
 			#if (TRACE_FSM)
 				System.Diagnostics.Trace.WriteLine("start_prerelease");
 			#endif
@@ -209,7 +209,7 @@ namespace NSemVersion
 
 			// parsing context
 			int major = 0, minor = 0, patch = 0;
-			List<PreReleasePartFragment> preRelease = null;
+			List<PreReleasePart.Fragment> preRelease = null;
 			List<string> buildMetadata = null;
 
 			%% write init nocs;

@@ -47,7 +47,7 @@ namespace NSemVersion
                 if (f1Exists && !f2Exists)
                     return 1;
 
-                result = p1Fragments.Current.CompareTo(p2Fragments.Current);
+                result = CompareFragments(p1Fragments.Current, p2Fragments.Current);
                 if (result != 0)
                     return result;
 
@@ -56,6 +56,31 @@ namespace NSemVersion
             }
 
             return result;
+        }
+
+        public int CompareFragments(PreReleasePart.Fragment fragment1, PreReleasePart.Fragment fragment2)
+        {
+            if (ReferenceEquals(fragment1, fragment2))
+                return 0;
+
+            // null has lower precedence
+            if (ReferenceEquals(fragment1, null))
+                return -1;
+            if (ReferenceEquals(fragment2, null))
+                return 1;
+
+            // numeric fragments are compared by value
+            if (fragment1.IsNumeric && fragment2.IsNumeric)
+                return fragment1.NumericValue.Value - fragment2.NumericValue.Value;
+
+            // number has lower precedence
+            if (fragment1.IsNumeric)
+                return -1;
+            if (fragment2.IsNumeric)
+                return 1;
+
+            // ignore case when compare (this is against semver 2.0.0 specification)
+            return String.Compare(fragment1.TextValue, fragment2.TextValue, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
