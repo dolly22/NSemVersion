@@ -7,8 +7,8 @@ var configuration   = Argument<string>("configuration", "Release");
 
 var solutions       = GetFiles("./**/*.sln");
 var solutionDirs    = solutions.Select(solution => solution.GetDirectory());
-var nugetToolPath   = "./packages/nuget.exe";
-var outputDirectory = "./build/"+ configuration;
+var nugetToolPath   = File("./packages/nuget.exe");
+var outputDirectory = Directory("./build/"+ configuration);
 
 // TASK DEFINITIONS
 
@@ -21,8 +21,10 @@ Task("Clean")
         Information("Cleaning {0}", solutionDir);
         CleanDirectories(solutionDir + "/**/bin/" + configuration);
         CleanDirectories(solutionDir + "/**/obj/" + configuration);
-        CleanDirectories(solutionDir + "/**/build/" + configuration);
     }
+    
+    // clean output directory
+    CleanDirectory(outputDirectory);    
 });
 
 Task("RestorePackages")
@@ -66,9 +68,14 @@ Task("PackageNuget")
     .IsDependentOn("PrepareOutputDirectory")
     .Does(() =>
 {
-   StartProcess(nugetToolPath, new ProcessSettings() {
-      Arguments = "pack " + "./src/nsemversion/nsemversion.csproj" + " -OutputDirectory " + outputDirectory
+   var result = StartProcess(nugetToolPath, new ProcessSettings() {
+      Arguments = "pack ./src/nsemversion/nsemversion.csproj" 
+        +" -OutputDirectory "+ outputDirectory
+        +" -Prop Configuration="+ configuration
    });
+   
+   if (result != 0)
+      throw new CakeException("Error creting nuget packages");   
 });
 
 Task("Test")
@@ -84,10 +91,13 @@ Task("TransformParser")
     .Description("Transform ragel parser")
     .Does(() =>
 {
-   StartProcess("./tools/ragel.exe", new ProcessSettings() {
+   var result = StartProcess("./tools/ragel.exe", new ProcessSettings() {
       Arguments = "-A -G1 SemVersionParser.Ragel.rl",
       WorkingDirectory = "./src/NSemVersion"
    });
+   
+   if (result != 0)
+      throw new CakeException("Error transforming ragel parser");
 });
 
 Task("All")
