@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>NSemVersion</id>
+    <version>$version$</version>
+    <authors>Dolly</authors>
+    <owners>Dolly</owners>
+    <projectUrl>http://github.con/dolly22/nsemversion</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET Semantic version library</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>semversion</tags>
+  </metadata>
+</package>
