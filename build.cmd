@@ -15,10 +15,8 @@ md packages
 copy %CACHED_NUGET% packages\nuget.exe > nul
 
 :restore
-IF EXIST packages\Cake goto run
-echo Installing cake build
-packages\NuGet.exe install Cake -version 0.2.2 -o packages -ExcludeVersion
+IF EXIST packages\Sake goto run
+packages\NuGet.exe install Sake -o packages -ExcludeVersion
 
 :run
-echo Starting cake build
-packages\Cake\Cake.exe build.cake %*
+packages\sake\tools\sake.exe -I build/sake -f makefile.shade %*
