@@ -1,0 +1,22 @@
+@{/*
+
+nuget-restore 
+    Restore nuget packages
+
+extra=''
+    Additional commandline parameters
+
+nugetPath='.nuget/NuGet.exe'
+    Overrides the path of the nuget.exe program to use
+
+*/}
+
+default nugetPath='.nuget/NuGet.exe'
+
+default outputDir=''
+default packageVersion=''
+default extra=''
+
+var nugetArgs='restore'
+
+exec-clr program="${nugetPath}" commandline="${nugetArgs}"

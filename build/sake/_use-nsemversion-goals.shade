@@ -24,6 +24,9 @@ default NUGET_DEPLOY=''
 #target-dir-clean target="clean"
   directory delete="${TARGET_DIR}"
 
+#nuget-initialize target='initialize'
+  nuget-restore 
+
 #build-compile target='compile' description='Compile primary project'
   for each='var projectFile in BUILD_PROJECTS.Except(TEST_PROJECTS)' 
     var outputDir='${Path.Combine(BUILD_DIR, Path.GetFileNameWithoutExtension(projectFile))}'
@@ -44,4 +47,4 @@ default NUGET_DEPLOY=''
 #nuget-package target='package' description='Create NuGet packages' if='HasFeature("nuget")'
   for each='var file in Files.Include("target/build/**/*.nuspec")'
     var baseName='${Path.GetFileNameWithoutExtension(file)}'
-    nuget-pack nuspecFile='${file}' nugetPath="packages/nuget.exe" packageVersion='${FULL_VERSION}' outputDir='${TARGET_DIR}' extra='-NoPackageAnalysis -Properties "id=${baseName};authors=${AUTHORS};author=${AUTHORS};title=${baseName};description=${baseName}"'
+    nuget-pack nuspecFile='${file}' packageVersion='${FULL_VERSION}' outputDir='${TARGET_DIR}' extra='-NoPackageAnalysis -Properties "id=${baseName};authors=${AUTHORS};author=${AUTHORS};title=${baseName};description=${baseName}"'
