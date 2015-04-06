@@ -12,7 +12,7 @@ echo Created nuget cache folder
 
 :copynuget
 IF EXIST packages\nuget.exe goto restore
-md .nuget
+md packages
 copy %CACHED_NUGET% packages\nuget.exe > nul
 
 :restore
