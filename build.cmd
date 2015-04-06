@@ -16,7 +16,7 @@ copy %CACHED_NUGET% .nuget\nuget.exe > nul
 
 :restore
 IF EXIST packages\Sake goto run
-packages\NuGet.exe install Sake -o packages -ExcludeVersion
+.nuget\NuGet.exe install Sake -o packages -ExcludeVersion
 
 :run
 packages\sake\tools\sake.exe -I build/sake -f makefile.shade %*
