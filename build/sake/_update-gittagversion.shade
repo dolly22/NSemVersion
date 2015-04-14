@@ -1,0 +1,68 @@
+@{/*
+
+update-gittagversion 
+  Update package version based on GitTagValue
+  
+packageLocation='packages/gittagversion.console' 
+    GitTagVersion nuget package location
+    
+assemblyName='GitTagVersion.Interfaces.dll' 
+    GitTagVersion invoker assembly name
+    
+toolLocation='${packageLocation}/tools/${assemblyName}' 
+    GitTagVersion remoting invoker assembly path
+    
+verbose='false' 
+    verbose tool output
+  
+*/}
+
+use namespace="System"
+use namespace="System.Reflection"
+
+default packageLocation='packages/gittagversion.console'
+default assemblyName = 'GitTagVersion.Interfaces.dll'
+default toolLocation='${packageLocation}/tools/${assemblyName}'
+deafult verbose='false'
+
+default VERSION=''
+default FULL_VERSION=''
+default FULL_SEMVERSION=''
+
+test if='!System.IO.File.Exists(toolLocation)'
+  -throw new Exception("GitTagVersion tool not found at "+ toolLocation);
+
+log info='Executing GitTagVersion'
+@{
+  var versionInfo = InvokeGitTagVersion(toolLocation); 
+    
+  // update VERSION and FULL_VERSION  
+  VERSION = versionInfo["ShortVersion"];
+  FULL_VERSION = versionInfo["ShortSemVersion"];  
+  FULL_SEMVERSION = versionInfo["FullSemVersion"];  
+}
+log info='Updated semversion: ${FULL_VERSION}'
+
+functions
+  @{   
+    const string GitTagCallerType   = "GitTagVersion.Interfaces.IsolatedAppDomainInvoker";
+    const string GitTagCallerMethod = "RunGitTagVersion";
+  
+    // main Invoke method
+    public IDictionary<string, string> InvokeGitTagVersion(string assemblyFile, bool verbose = false)
+    {    
+        // load remoting assembly
+        var assembly = Assembly.LoadFrom(assemblyFile);
+        if (assembly == null)
+          throw new InvalidOperationException("Unable to load GitTagVersion invoker assembly");
+            
+        // reflect caller type and method
+        var callerMethod = assembly
+          .GetType(GitTagCallerType)
+          .GetMethod(GitTagCallerMethod, BindingFlags.Static | BindingFlags.Public);  
+        if (callerMethod == null)
+          throw new InvalidOperationException("Unable to find caller method");
+
+        return (IDictionary<string,string>)callerMethod.Invoke(null, new object[] { verbose });          
+    }      
+ }

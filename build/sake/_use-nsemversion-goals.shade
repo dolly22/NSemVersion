@@ -27,6 +27,9 @@ default NUGET_DEPLOY=''
 #nuget-initialize target='initialize'
   nuget-restore 
 
+#assemblyinfo-initialize target='initialize' if='ASSEMBLYINFO_FILES != null'
+  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyInformationalVersion='${FULL_SEMVERSION}'
+
 #build-compile target='compile' description='Compile primary project'
   for each='var projectFile in BUILD_PROJECTS.Except(TEST_PROJECTS)' 
     var outputDir='${Path.Combine(BUILD_DIR, Path.GetFileNameWithoutExtension(projectFile))}'

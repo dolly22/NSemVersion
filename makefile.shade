@@ -1,7 +1,9 @@
-
 var VERSION='0.1'
 var FULL_VERSION='0.1'
+var FULL_SEMVERSION='0.1'
 var AUTHORS=''
+
+update-gittagversion toolLocation='d:\\Projects\\GitTagVersion\\src\\GitTagVersion.Core\\bin\\Debug\\gittagversion.interfaces.dll'
 
 use-standard-lifecycle
 use-nsemversion-goals features="xunit2,nuget"
