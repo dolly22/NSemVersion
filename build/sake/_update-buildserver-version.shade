@@ -1,0 +1,20 @@
+@{/*
+
+update-buildserver-version
+  Update version to buildserver
+      
+buildNumber='' 
+    build number to update
+*/}
+use import="BuildServer"
+
+default buildNumber='' 
+
+test if='String.IsNullOrWhiteSpace(buildNumber)'
+    -throw new Exception("No buildNumber supplied to update-buildserver-version");
+
+test if='BuildServer.IsMyGet'
+    log info="##myget[buildNumber '${buildNumber}']"
+    
+test if='BuildServer.IsAppVeyor'        
+    exec program='appveyor' commandline='UpdateBuild -Version "${buildNumber}"'
