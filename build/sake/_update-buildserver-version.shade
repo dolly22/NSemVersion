@@ -14,7 +14,7 @@ test if='String.IsNullOrWhiteSpace(buildNumber)'
     -throw new Exception("No buildNumber supplied to update-buildserver-version");
 
 test if='BuildServer.IsMyGet'
-    log info="##myget[buildNumber '${buildNumber}']"
+    -System.Console.WriteLine("##myget[buildNumber '{0}']", buildNumber);
     
 test if='BuildServer.IsAppVeyor'        
     exec program='appveyor' commandline='UpdateBuild -Version "${buildNumber}"'
