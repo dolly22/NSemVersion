@@ -1,10 +1,15 @@
-var VERSION='0.1'
-var FULL_VERSION='0.1'
-var FULL_SEMVERSION='0.1'
 var AUTHORS=''
 
--//update-gittagversion toolLocation='d:\\Projects\\GitTagVersion\\src\\GitTagVersion.Core\\bin\\Debug\\gittagversion.interfaces.dll'
-update-buildserver-version buildNumber='${FULL_VERSION}'
+use import="packages\GitTagVersion.Console.0.1.0\tools\sake\gittagversion.shade"
+@{
+	var versionInfo=GitTagVersion();
+	var VERSION = versionInfo["ShortVersion"];
+	var FULL_VERSION = versionInfo["ShortSemVersion"];
+	var FULL_SEMVERSION = versionInfo["FullSemVersion"];
+}
+-//log info="	VERSION: ${VERSION}"
+-//log info="	FULL_VERSION: ${FULL_VERSION}"
+log info="  semversion: ${FULL_SEMVERSION}"
 
 use-standard-lifecycle
 use-nsemversion-goals features="xunit2,nuget"
