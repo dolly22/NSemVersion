@@ -1,6 +1,6 @@
 var AUTHORS=''
 
-use import="packages\GitTagVersion.Console.0.1.0\tools\sake\gittagversion.shade"
+use import="packages\GitTagVersion.Console.0.2.0-pre-0000\tools\sake\gittagversion.shade"
 @{
 	var versionInfo=GitTagVersion();
 	var VERSION = versionInfo["AssemblyVersion"];
