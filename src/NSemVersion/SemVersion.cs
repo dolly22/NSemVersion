@@ -16,20 +16,28 @@ namespace NSemVersion
         private int patch;
 
         public SemVersion(
-            int major = default(int),
-            int minor = default(int),
-            int patch = default(int),
-            PreReleasePart preRelease = null,
+            int major,
+            int minor,
+            int patch)
+        {
+            InitFromParts(major, minor, patch, null, null);
+        }
+
+        public SemVersion(
+            int major,
+            int minor,
+            int patch,
+            PreReleasePart preRelease,
             BuildMetadataPart buildMetadata = null)
         {
             InitFromParts(major, minor, patch, preRelease, buildMetadata);
         }
 
         public SemVersion(
-            int major = default(int),
-            int minor = default(int),
-            int patch = default(int),
-            string preRelease = null,
+            int major,
+            int minor,
+            int patch,
+            string preRelease,
             string buildMetadata = null)
         {
             InitFromParts(major, minor, patch, (PreReleasePart)preRelease, (BuildMetadataPart)buildMetadata);
