@@ -9,7 +9,7 @@ namespace NSemVersion
     /// <summary>
     /// Semantic version
     /// </summary>
-    public sealed class SemVersion : IComparable<SemVersion>, IEquatable<SemVersion>
+    public sealed class SemVersion : IComparable<SemVersion>, IEquatable<SemVersion>, IFormattable
     {
         private int major;
         private int minor;
@@ -23,6 +23,16 @@ namespace NSemVersion
             BuildMetadataPart buildMetadata = null)
         {
             InitFromParts(major, minor, patch, preRelease, buildMetadata);
+        }
+
+        public SemVersion(
+            int major = default(int),
+            int minor = default(int),
+            int patch = default(int),
+            string preRelease = null,
+            string buildMetadata = null)
+        {
+            InitFromParts(major, minor, patch, (PreReleasePart)preRelease, (BuildMetadataPart)buildMetadata);
         }
 
         public SemVersion(string version)
@@ -232,10 +242,29 @@ namespace NSemVersion
 
         #endregion
 
+        #region Formatting
+
         public override string ToString()
         {
-            return String.Format("{0}.{1}.{2}{3}{4}", 
-                Major, Minor, Patch, PreRelease.FormatPart(), BuildMetadata.FormatPart());
+            return ToString("F");
         }
+
+        public string ToString(string format)
+        {
+            return ToString(format, SemVersionFormatter.Default);
+        }
+
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            if (formatProvider != null)
+            {
+                var formatter = formatProvider.GetFormat(this.GetType()) as ICustomFormatter;
+                if (formatter != null)
+                    return formatter.Format(format, this, formatProvider);
+            }
+            return ToString();
+        }
+
+        #endregion
     }
 }

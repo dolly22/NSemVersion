@@ -14,13 +14,5 @@ namespace NSemVersion
                 return true;
             return buildInfoPart.Count == 0;
         }
-
-        public static string FormatPart(this BuildMetadataPart buildInfoPart)
-        {
-            if (buildInfoPart.IsEmpty())
-                return string.Empty;
-
-            return "+" + buildInfoPart.ToString();
-        }
     }
 }

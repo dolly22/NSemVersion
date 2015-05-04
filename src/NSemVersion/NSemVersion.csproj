@@ -41,6 +41,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SemVersion.cs" />
     <Compile Include="SemVersionComparer.cs" />
+    <Compile Include="SemVersionFormatter.cs" />
     <Compile Include="SemVersionParseException.cs" />
     <Compile Include="SemVersionParser.cs" />
     <Compile Include="SemVersionParser.Ragel.cs">

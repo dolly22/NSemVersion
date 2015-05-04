@@ -14,13 +14,5 @@ namespace NSemVersion
                 return true;
             return preReleasePart.Count == 0;
         }
-
-        public static string FormatPart(this PreReleasePart preReleasePart)
-        {
-            if (preReleasePart.IsEmpty())
-                return string.Empty;
-
-            return "-"+ preReleasePart.ToString();
-        }
     }
 }
