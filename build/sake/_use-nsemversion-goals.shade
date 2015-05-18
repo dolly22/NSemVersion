@@ -25,7 +25,7 @@ default NUGET_DEPLOY=''
   directory delete="${TARGET_DIR}"
 
 #assemblyinfo-initialize target='initialize' if='ASSEMBLYINFO_FILES != null'
-  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyFileVersion='${versionInfo["FileVersion"]}' assemblyInformationalVersion='${versionInfo["FullVersion"]}'
+  assemblyinfo each='var updateFile in ASSEMBLYINFO_FILES' assemblyVersion='${VERSION}' assemblyFileVersion='${versionInfo["Code.FileVersion"]}' assemblyInformationalVersion='${versionInfo["SemVer2.FullVersion"]}'
 
 #build-compile target='compile' description='Compile primary project'
   for each='var projectFile in BUILD_PROJECTS.Except(TEST_PROJECTS)' 

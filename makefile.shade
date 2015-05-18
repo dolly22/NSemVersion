@@ -1,12 +1,12 @@
 var AUTHORS=''
 
-use import="packages\GitTagVersion.Console.0.2.0-pre-0002\tools\sake\gittagversion.shade"
+use import="packages\GitTagVersion.Console.0.2.0\tools\sake\gittagversion.shade"
 @{
 	var versionInfo=GitTagVersion();
-	var VERSION = versionInfo["AssemblyVersion"];
-	var FULL_VERSION = versionInfo["VersionWithPreReleaseV1"];
+	var VERSION = versionInfo["Code.AssemblyVersion"];
+	var FULL_VERSION = versionInfo["SemVer1.VersionWithPreRelease"];
 }
-log info="  semversion: ${versionInfo["FullVersion"]}"
+log info="  semversion: ${versionInfo["SemVer2.FullVersion"]}"
 
 use-standard-lifecycle
 use-nsemversion-goals features="xunit2,nuget"
